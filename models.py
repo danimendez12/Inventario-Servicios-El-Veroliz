@@ -36,7 +36,7 @@ def actualizar_item(item_id: int, id_nuevo_tipo: int, nombre: str, stock_minimo:
                 cur.execute(query, (item_id, id_nuevo_tipo, nombre, stock_minimo))
                 val = cur.fetchall()
                 conn.commit()
-                if val[0] == 1:
+                if val[0][0] == 1:
                     return True
                 else:
                     return False
@@ -56,10 +56,11 @@ def eliminar_item(item_id: int) -> bool:
     if conn:
         try:
             with conn.cursor() as cur:
-                cur.execute(query, (item_id,))
+                cur.execute(query, (item_id))
                 val = cur.fetchall()
                 conn.commit()
-                if val[0] == 1:
+
+                if val[0][0] == 1:
                     return True
                 else:
                     return False
@@ -92,5 +93,27 @@ def obtener_items():
     finally:
         conn.close()
 
+
+def filtrar_productos(filtro_linea: int,filtro_cantHojas: int,filtro_tipo:int):
+    """
+        Obtiene todos los registros de la vista 'vista_inventario'.
+        """
+    query = "SELECT * FROM filtrar_inventario(%s,%s,%s);"
+    conn = get_db_connection()
+
+    if not conn:
+        return []
+
+    try:
+        with conn.cursor() as cur:
+            cur.execute(query, (filtro_linea,filtro_cantHojas,filtro_tipo))
+            items = cur.fetchall()
+            return items
+
+    except Exception as e:
+        return []
+
+    finally:
+        conn.close()
 
 
