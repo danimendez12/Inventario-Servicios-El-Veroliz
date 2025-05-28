@@ -43,10 +43,30 @@ export default function ModalItemForm({ open, onClose, onSubmit, initialData, mo
             <input name="producto" value={form.producto} onChange={handleChange} placeholder="valor" required />
           </label>
           <label>Categoría
-            <input name="categoria" value={form.categoria} onChange={handleChange} placeholder="valor" required />
+            <select name="categoria" value={form.categoria} onChange={handleChange} required>
+              <option value="">Valor</option>
+              <option value="1">Portadas</option>
+              <option value="2">Telas de encuadernacion</option>
+              <option value="3">Libros Interior</option>
+              <option value="4">Pegamentos</option>
+              <option value="5">Tintas</option>
+              <option value="6">Papeles</option>
+              <option value="7">Consumibles</option>
+              <option value="8">Insumos y Consumible</option>
+              <option value="9">Libros Terminados</option>
+            </select>
           </label>
           <label>Hojas
-            <input name="hojas" value={form.hojas} onChange={handleChange} placeholder="valor" required />
+            <select name="hojas" value={form.hojas} onChange={handleChange} required>
+              <option value="">Valor</option>
+              <option value="1">50</option>
+              <option value="2">100</option>
+              <option value="3">200</option>
+              <option value="4">300</option>
+              <option value="5">400</option>
+              <option value="6">500</option>
+              <option value="7">1000</option>
+            </select>
           </label>
           <label>Cantidad
             <input name="cantidad" value={form.cantidad} onChange={handleChange} placeholder="valor" required />
@@ -54,9 +74,9 @@ export default function ModalItemForm({ open, onClose, onSubmit, initialData, mo
           <label>Línea
             <select name="linea" value={form.linea} onChange={handleChange} required>
               <option value="">Valor</option>
-              <option value="Economica">Económica</option>
-              <option value="Plus">Plus</option>
-              <option value="Normal">Normal</option>
+              <option value="1">Económica</option>
+              <option value="3">Plus</option>
+              <option value="2">Normal</option>
             </select>
           </label>
           <label>Mínimo en stock

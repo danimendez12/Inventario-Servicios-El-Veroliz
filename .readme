@@ -1,0 +1,4 @@
+Para ejecutar el backend, posicionarse en su carpeta y ejecutar python backend/app.py
+Para el frontend, en su carpete npm run dev
+
+recordar el npm install en frontend y pip install -r requirements en backend

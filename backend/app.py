@@ -29,6 +29,7 @@ def login():
 
 @app.route('/api/inventario', methods=['GET'])
 def obtener_inventario():
+    print("entrandoooooo a obtener_inventario de app")
     conn = get_db_connection()
     if not conn:
         return jsonify({'success': False, 'message': 'Error de conexión'}), 500
@@ -40,6 +41,15 @@ def obtener_inventario():
         inventario = []
         for fila in datos:
             item = dict(zip(columnas, fila))
+            
+            # Mapear linea a texto
+            if 'linea' in item:
+                if item['linea'] == 1:
+                    item['linea'] = 'Economica'
+                elif item['linea'] == 2:
+                    item['linea'] = 'Normal'
+                elif item['linea'] == 3:
+                    item['linea'] = 'Plus'
             # Determinar estado según cantidad
             cantidad = item.get('cantidad', 0)
             try:
@@ -55,6 +65,120 @@ def obtener_inventario():
             inventario.append(item)
         cur.close()
         return jsonify({'success': True, 'inventario': inventario})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+    finally:
+        close_db_connection(conn)
+
+@app.route('/api/agregar_item', methods=['POST'])
+def agregar_item():
+    print("entrandoooooo a agregar_item de app")
+    data = request.json
+    producto = data.get('producto')
+    categoria = data.get('categoria')
+    hojas = data.get('hojas')
+    cantidad = data.get('cantidad')
+    linea = data.get('linea')
+    minimo = data.get('minimo')
+
+    conn = get_db_connection()
+
+    if not conn:
+        return jsonify({'success': False, 'message': 'Error de conexión'}), 500
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT insertar_nuevo_item(%s, %s, %s, %s, %s, %s);", (producto, categoria, hojas, cantidad, linea, minimo))
+        conn.commit()
+        print("Resultado exitosooooo")
+        cur.close()
+        return jsonify({'success': True })
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+    finally:
+        close_db_connection(conn)
+
+@app.route('/api/eliminar_item', methods=['DELETE'])
+def eliminar_item():
+    print("entrandoooooo a eliminar_item de app")
+    print(request.json)
+    data = request.json
+    id_item = data.get('id')
+    print(f"ID del item a eliminar: {id_item}")
+    conn = get_db_connection()
+
+    if not conn:
+        return jsonify({'success': False, 'message': 'Error de conexión'}), 500
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT eliminar_item(%s);", (id_item,))
+        conn.commit()
+        print("Borrado exitosooooo")
+        cur.close()
+        return jsonify({'success': True })
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+    finally:
+        close_db_connection(conn)
+
+@app.route('/api/actualizar_item', methods=['PUT'])
+def actualizar_item():
+    print("entrandoooooo a actualizar_item de app")
+    data = request.json
+    objetivo = data.get('objetivo')
+    producto = data.get('producto')
+    categoria = data.get('categoria')
+    hojas = data.get('hojas')
+    cantidad = data.get('cantidad')
+    linea = data.get('linea')
+    minimo = data.get('minimo')
+
+    conn = get_db_connection()
+
+    if not conn:
+        return jsonify({'success': False, 'message': 'Error de conexión'}), 500
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT actualizar_item_existente(%s,%s, %s, %s, %s, %s, %s);", (objetivo, producto, categoria, hojas, cantidad, linea, minimo))
+        conn.commit()
+        print("Resultado exitosooooo")
+        cur.close()
+        return jsonify({'success': True })
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+    finally:
+        close_db_connection(conn)
+
+@app.route('/api/agregar_existencia', methods=['POST'])
+def agregar_existencia():
+    data = request.json
+    objetivo = data.get('objetivo')
+    cantidad = data.get('cantidad')
+    conn = get_db_connection()
+   
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT agregar_existencia(%s, %s);", (objetivo, cantidad))
+        conn.commit()
+        cur.close()
+        return jsonify({'success': True})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+    finally:
+        close_db_connection(conn)
+
+@app.route('/api/restar_existencia', methods=['POST'])
+def restar_existencia():
+    data = request.json
+    objetivo = data.get('objetivo')
+    cantidad = data.get('cantidad')
+    conn = get_db_connection()
+   
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT restar_existencia(%s, %s);", (objetivo, cantidad))
+        conn.commit()
+        cur.close()
+        return jsonify({'success': True})
     except Exception as e:
         return jsonify({'success': False, 'message': str(e)})
     finally:

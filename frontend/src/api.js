@@ -31,4 +31,97 @@ export async function obtener_inventario() {
   }
 }
 
-// Aquí puedes agregar más funciones para interactuar con tu backend
+export async function agregar_item(producto, categoria, hojas, cantidad, linea, minimo) {
+  try {
+    
+    const response = await axios.post(`${API_URL}/agregar_item`, {
+      producto,
+      categoria,
+      hojas,
+      cantidad,
+      linea,
+      minimo
+    });
+    console.log(response.data);
+
+    return response.data; // { success: true, inventario: [...] }
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    }
+    return { success: false, message: 'Error de red o servidor' };
+  }
+  
+}
+
+export async function eliminar_item(id) {
+  try {
+    const response = await axios.delete(`${API_URL}/eliminar_item`, {
+      headers: { 'Content-Type': 'application/json' },
+      data: { id }
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    }
+    return { success: false, message: 'Error de red o servidor' };
+  }
+  
+}
+
+export async function actualizar_item(objetivo,producto, categoria, hojas, cantidad, linea, minimo) {
+  try {
+    
+    const response = await axios.put(`${API_URL}/actualizar_item`, {
+      objetivo,
+      producto,
+      categoria,
+      hojas,
+      cantidad,
+      linea,
+      minimo
+    });
+    console.log(response.data);
+
+    return response.data; // { success: true, inventario: [...] }
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    }
+    return { success: false, message: 'Error de red o servidor' };
+  }
+  
+}
+
+export async function agregar_existencia(objetivo, cantidad) {
+  try {
+    const response = await axios.post(`${API_URL}/agregar_existencia`, {
+      objetivo,
+      cantidad
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    }
+    return { success: false, message: 'Error de red o servidor' };
+  }
+}
+
+export async function restar_existencia(objetivo, cantidad) {
+  try {
+    const response = await axios.post(`${API_URL}/restar_existencia`, {
+      objetivo,
+      cantidad
+    });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    }
+    return { success: false, message: 'Error de red o servidor' };
+  }
+}
+

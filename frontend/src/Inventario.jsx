@@ -8,10 +8,10 @@ import ModalItemForm from './SubComponentes/ModalItemForm';
 import ModalEliminar from './SubComponentes/ModalEliminar';
 import ModalConfirmacion from './SubComponentes/ModalConfirmacion';
 import ModalAgregarExistencia from './SubComponentes/ModalAgregarExistencia';
-import { obtener_inventario } from './api';
+import { obtener_inventario, agregar_item, eliminar_item, actualizar_item, agregar_existencia, restar_existencia} from './api';
 
 const COLUMNAS = [
-  { key: 'id', label: 'ID' },
+  { key: 'id_item', label: 'ID' },
   { key: 'producto', label: 'Producto' },
   { key: 'hojas', label: 'Hojas' },
   { key: 'linea', label: 'Línea' },
@@ -52,7 +52,7 @@ export default function Inventario() {
     return dataInventario.filter(item => {
       if (filtros.linea && item.linea !== filtros.linea) return false;
       if (filtros.estado && item.estado !== filtros.estado) return false;
-      if (filtros.hojas && item.hojas !== filtros.hojas) return false;
+      if (filtros.hojas && String(item.hojas) !== String(filtros.hojas)) return false;
       if (busqueda) {
         const texto = Object.values(item).join(' ').toLowerCase();
         if (!texto.includes(busqueda.toLowerCase())) return false;
@@ -99,25 +99,89 @@ export default function Inventario() {
     setModalExistenciaModo('restarExistencia');
   }
   // Handler para confirmar eliminación
-  const handleEliminarItem = () => {
+  const handleEliminarItem = async () => {
+    setModalEliminarOpen(false);
     setModalConfirmOpen(true);
     const itemAEliminar = items[selectedIdx] || items[0] || {};
-    console.log('Item a eliminar:', itemAEliminar);
-    setModalEliminarOpen(false);
-    // Aquí puedes agregar la lógica real de eliminación
+    console.log('Item a eliminar:', itemAEliminar.id_item);
+    if (itemAEliminar.id || itemAEliminar.id_item) {
+    const id = parseInt((itemAEliminar.id || itemAEliminar.id_item),10);
+    const resultado = await eliminar_item(id);
+      if (resultado.success) {
+        const res = await obtener_inventario();
+        if (res.success) setDataInventario(res.inventario);
+      } else {
+        alert(resultado.message || 'Error al eliminar item');
+      }
+    } 
+    
   };
 
   
-  const handleModalExistenciasSubmit = (cantidad) => {
+  const handleModalExistenciasSubmit = async (cantidad) => {
     setModalAgregarExistenciaOpen(false);
     setModalConfirmOpen(true);
-    console.log('Cantidad de existencias:', cantidad); // Imprime la cantidad en consola
+    const item = items[selectedIdx] || items[0] || {};
+    const id = item.id || item.id_item;
+    if (!id) {
+      alert('No se ha seleccionado un item válido');
+      return;
+    }
+    try {
+      let resultado;
+      if (modalExistenciaModo === 'agregarExistencia') {
+        resultado = await agregar_existencia(id, parseInt(cantidad, 10));
+      } else {
+        resultado = await restar_existencia(id, parseInt(cantidad, 10));
+      }
+      if (resultado.success) {
+        const res = await obtener_inventario();
+        if (res.success) setDataInventario(res.inventario);
+      } else {
+        alert(resultado.message || 'Error al actualizar existencias');
+      }
+    } catch (e) {
+      alert('Error al actualizar existencias');
+    }
   }
 
   // Handler para submit del modal (aquí se agrega nuestra lógica real)
-  const handleModalSubmit = (formData) => {
+  const handleModalSubmit = async (formData) => {
     setModalConfirmOpen(true);
-    console.log('Valores del formulario:', formData); // Imprime los valores en consola
+    // Casteo de datos para la función de postgres
+    const dataCasteada = {
+      producto: String(formData.producto),
+      categoria: parseInt(formData.categoria, 10),
+      hojas: parseInt(formData.hojas, 10),
+      cantidad: parseInt(formData.cantidad, 10),
+      linea: parseInt(formData.linea), // si tu función espera int, usa parseInt(formData.linea, 10)
+      minimo: parseInt(formData.minimo, 10)
+    };
+    console.log('Valores casteados para Postgres:', dataCasteada);
+    if (modalModo === 'agregar') {
+      // Llama a la función de agregar item en el backend
+
+      const resultado = await agregar_item(dataCasteada.producto, dataCasteada.categoria, dataCasteada.hojas, dataCasteada.cantidad, dataCasteada.linea, dataCasteada.minimo);
+      if (resultado.success) {
+        // Recargar inventario si fue exitoso
+        const res = await obtener_inventario();
+        if (res.success) setDataInventario(res.inventario);
+      } else {
+        alert(resultado.message || 'Error al agregar item');
+      }
+    } else if (modalModo === 'modificar') {
+      console.log('Modificando item:', dataCasteada);
+      const itemAModificar = items[selectedIdx] || items[0] || {};
+      const resultado = await actualizar_item(itemAModificar.id_item, dataCasteada.producto, dataCasteada.categoria, dataCasteada.hojas, dataCasteada.cantidad, dataCasteada.linea, dataCasteada.minimo);
+      if (resultado.success) {
+        // Recargar inventario si fue exitoso
+        const res = await obtener_inventario();
+        if (res.success) setDataInventario(res.inventario);
+      } else {
+        alert(resultado.message || 'Error al actualizar item');
+      }
+
+    }
     setModalOpen(false);
   };
 
@@ -171,7 +235,6 @@ export default function Inventario() {
 
   return (
     <div className="inventario-bg">
- 
       <Header titulo="Inventario" />
       <div className="inventario-layout">
         <div className="inventario-col filtros-col">
