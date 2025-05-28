@@ -184,5 +184,74 @@ def restar_existencia():
     finally:
         close_db_connection(conn)
 
+
+@app.route('/api/obtener_predicciones', methods=['GET'])
+def obtener_predicciones():
+    print("entrandoooooo a obtener_predicciones de app")
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({'success': False, 'message': 'Error de conexión'}), 500
+    try:
+        cur = conn.cursor()
+        cur.execute('SELECT * FROM OBTENER_PREDICCIONES();')
+        columnas = [desc[0] for desc in cur.description]
+        datos = cur.fetchall()
+        predicciones = []
+        for fila in datos:
+            item = dict(zip(columnas, fila))
+            predicciones.append(item)
+        cur.close()
+        return jsonify({'success': True, 'predicciones': predicciones})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+    finally:
+        close_db_connection(conn)
+
+@app.route('/api/obtener_ordenes', methods=['GET'])
+def obtener_ordenes():
+    print("entrandoooooo a obtener_ordenes de app")
+    conn = get_db_connection()
+    if not conn:
+        return jsonify({'success': False, 'message': 'Error de conexión'}), 500
+    try:
+        cur = conn.cursor()
+        cur.execute('SELECT * FROM VER_ORDENES();')
+        columnas = [desc[0] for desc in cur.description]
+        datos = cur.fetchall()
+        ordenes = []
+        for fila in datos:
+            item = dict(zip(columnas, fila))
+            ordenes.append(item)
+        cur.close()
+        return jsonify({'success': True, 'ordenes': ordenes})
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+    finally:
+        close_db_connection(conn)
+
+
+@app.route('/api/completar_orden', methods=['PUT'])
+def completar_orden():
+    print("entrandoooooo a completar_orden de app")
+    print(request.json)
+    data = request.json
+    id_item = data.get('id')
+    print(f"ID del item a eliminar: {id_item}")
+    conn = get_db_connection()
+
+    if not conn:
+        return jsonify({'success': False, 'message': 'Error de conexión'}), 500
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT completar_orden_compra(%s);", (id_item,))
+        conn.commit()
+        print("completado exitosooooo")
+        cur.close()
+        return jsonify({'success': True })
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+    finally:
+        close_db_connection(conn)
+
 if __name__ == '__main__':
     app.run(debug=True)

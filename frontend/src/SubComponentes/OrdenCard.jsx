@@ -3,81 +3,39 @@ import '../estilos/ordenes.css';
 
 // Recibe props: numero, estado, entrega, onDetalle (opcional)
 const estadoConfig = {
-  'Atrasada': { icon: 
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M20 20H0V0H20V20Z" stroke="#E5E7EB"/>
-    <g clip-path="url(#clip0_140_585)">
-    <g clip-path="url(#clip1_140_585)">
-    <path d="M10 1.25C10.5547 1.25 11.0664 1.54297 11.3477 2.02344L19.7852 16.3984C20.0703 16.8828 20.0703 17.4805 19.793 17.9648C19.5156 18.4492 18.9961 18.75 18.4375 18.75H1.56252C1.00393 18.75 0.484398 18.4492 0.207054 17.9648C-0.0702894 17.4805 -0.0663832 16.8789 0.214867 16.3984L8.65237 2.02344C8.93362 1.54297 9.44534 1.25 10 1.25ZM10 6.25C9.48049 6.25 9.06252 6.66797 9.06252 7.1875V11.5625C9.06252 12.082 9.48049 12.5 10 12.5C10.5196 12.5 10.9375 12.082 10.9375 11.5625V7.1875C10.9375 6.66797 10.5196 6.25 10 6.25ZM11.25 15C11.25 14.6685 11.1183 14.3505 10.8839 14.1161C10.6495 13.8817 10.3315 13.75 10 13.75C9.6685 13.75 9.35056 13.8817 9.11614 14.1161C8.88172 14.3505 8.75002 14.6685 8.75002 15C8.75002 15.3315 8.88172 15.6495 9.11614 15.8839C9.35056 16.1183 9.6685 16.25 10 16.25C10.3315 16.25 10.6495 16.1183 10.8839 15.8839C11.1183 15.6495 11.25 15.3315 11.25 15Z" fill="#EF4444"/>
-    </g>
-    </g>
-    <defs>
-    <clipPath id="clip0_140_585">
-    <rect width="20" height="20" fill="white"/>
-    </clipPath>
-    <clipPath id="clip1_140_585">
-    <path d="M0 0H20V20H0V0Z" fill="white"/>
-    </clipPath>
-    </defs>
-    </svg>,   color: '#e53935', border: '#e53935', bg: '#fff5f5' },
-  'A tiempo': { icon:
-    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M20 20H0V0H20V20Z" stroke="#E5E7EB"/>
-    <g clip-path="url(#clip0_140_599)">
-    <g clip-path="url(#clip1_140_599)">
-    <g clip-path="url(#clip2_140_599)">
-    <path d="M9.99996 3.99984V8.99984L13.3333 10.6665M18.3333 8.99984C18.3333 13.6022 14.6023 17.3332 9.99996 17.3332C5.39759 17.3332 1.66663 13.6022 1.66663 8.99984C1.66663 4.39746 5.39759 0.666504 9.99996 0.666504C14.6023 0.666504 18.3333 4.39746 18.3333 8.99984Z" stroke="#FFBC1F" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-    </g>
-    </g>
-    </g>
-    <defs>
-    <clipPath id="clip0_140_599">
-    <rect width="20" height="20" fill="white"/>
-    </clipPath>
-    <clipPath id="clip1_140_599">
-    <path d="M0 0H20V20H0V0Z" fill="white"/>
-    </clipPath>
-    <clipPath id="clip2_140_599">
-    <rect width="20" height="20" fill="white" transform="translate(0 -1)"/>
-    </clipPath>
-    </defs>
-    </svg> , color: '#ffb800', border: '#ffb800', bg: '#fffbe5' },
-  'Sin revisar': { icon: 
-    <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M17.5 20H0V0H17.5V20Z" stroke="#E5E7EB"/>
-    <g clip-path="url(#clip0_140_632)">
-    <g clip-path="url(#clip1_140_632)">
-    <path d="M1.98047 2.28516L0 6.25H8.125V1.25H3.66016C2.94922 1.25 2.30078 1.65234 1.98047 2.28516ZM9.375 6.25H17.5L15.5195 2.28516C15.1992 1.65234 14.5508 1.25 13.8398 1.25H9.375V6.25ZM17.5 7.5H0V16.25C0 17.6289 1.12109 18.75 2.5 18.75H15C16.3789 18.75 17.5 17.6289 17.5 16.25V7.5Z" fill="#757575"/>
-    </g>
-    </g>
-    <defs>
-    <clipPath id="clip0_140_632">
-    <rect width="17.5" height="20" fill="white"/>
-    </clipPath>
-    <clipPath id="clip1_140_632">
-    <path d="M0 0H17.5V20H0V0Z" fill="white"/>
-    </clipPath>
-    </defs>
-    </svg>
-, color: '#888', border: '#bbb', bg: '#f7f7f7' },
-  'Completada': { icon: 
-    <svg width="25" height="20" viewBox="0 0 25 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M25 20H0V0H25V20Z" stroke="#E5E7EB"/>
-    <g clip-path="url(#clip0_140_646)">
-    <path d="M25 20H0V0H25V20Z" stroke="#E5E7EB"/>
-    <path d="M19.6667 5L10.5 14.1667L6.33337 10" stroke="#10A242" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-    </g>
-    <defs>
-    <clipPath id="clip0_140_646">
-    <rect width="25" height="20" fill="white"/>
-    </clipPath>
-    </defs>
-    </svg>
-, color: '#2ecc40', border: '#2ecc40', bg: '#f5fff7' },
+  'Pendiente': {
+    icon: (
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="10" cy="10" r="9" stroke="#E5E7EB" strokeWidth="2" fill="#fff5f5" />
+        <path d="M10 5V11" stroke="#e53935" strokeWidth="2" strokeLinecap="round"/>
+        <circle cx="10" cy="14.5" r="1" fill="#e53935" />
+      </svg>
+    ),
+    color: '#e53935', border: '#e53935', bg: '#fff5f5'
+  },
+  'Completo': {
+    icon: (
+      <svg width="25" height="20" viewBox="0 0 25 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="25" height="20" rx="4" fill="#f5fff7" stroke="#2ecc40" strokeWidth="2" />
+        <path d="M19.6667 5L10.5 14.1667L6.33337 10" stroke="#10A242" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+    ),
+    color: '#2ecc40', border: '#2ecc40', bg: '#f5fff7'
+  },
+  'Sin revisar': {
+    icon: (
+      <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="17.5" height="20" x="0.25" y="0.25" fill="#f7f7f7" stroke="#bbb" strokeWidth="0.5" />
+        <circle cx="9" cy="10" r="3" fill="#bbb" />
+      </svg>
+    ),
+    color: '#888', border: '#bbb', bg: '#f7f7f7'
+  }
 };
 
 export default function OrdenCard({ numero, estado, entrega, onDetalle }) {
   const cfg = estadoConfig[estado] || estadoConfig['Sin revisar'];
+  console.log('Configuración de estado:', numero);
   return (
     <div
       className="orden-card"

@@ -125,3 +125,45 @@ export async function restar_existencia(objetivo, cantidad) {
   }
 }
 
+export async function obtener_predicciones() {
+  try {
+    const response = await axios.get(`${API_URL}/obtener_predicciones`);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    }
+    return { success: false, message: 'Error de red o servidor' };
+  }
+}
+
+
+export async function obtener_ordenes() {
+  try {
+    const response = await axios.get(`${API_URL}/obtener_ordenes`);
+    console.log("lo obtenido esss ", response.data);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    }
+    return { success: false, message: 'Error de red o servidor' };
+  }
+}
+
+export async function completar_orden(id) {
+  try {
+    const response = await axios.put(`${API_URL}/completar_orden`, {
+      headers: { 'Content-Type': 'application/json' },
+      data: { id }
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    }
+    return { success: false, message: 'Error de red o servidor' };
+  }
+  
+}
