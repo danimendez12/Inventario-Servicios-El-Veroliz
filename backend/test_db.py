@@ -8,12 +8,12 @@ def main():
         return
     try:
         cur = conn.cursor()
-        # Consultar las tablas 
-        cur.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';")
-        tables = cur.fetchall()
-        print("Tablas en la base de datos:")
-        for table in tables:
-            print(f"- {table[0]}")
+        # Consultar los datos de la tabla usuario
+        cur.execute("SELECT * FROM usuario;")
+        usuarios = cur.fetchall()
+        print("Usuarios en la base de datos:")
+        for usuario in usuarios:
+            print(usuario)
         cur.close()
     except Exception as e:
         print(f"Error al consultar la base de datos: {e}")

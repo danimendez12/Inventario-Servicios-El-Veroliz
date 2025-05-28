@@ -1,0 +1,84 @@
+.modal-eliminar-box {
+  max-width: 370px;
+  text-align: center;
+}
+.modal-eliminar-icon {
+  font-size: 3.5rem;
+  color: red;
+  margin-bottom: 10px;
+}
+.modal-eliminar-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+.modal-eliminar-desc {
+  margin-bottom: 24px;
+}
+.modal-eliminar-producto {
+  margin-top: 10px;
+  font-weight: bold;
+}
+.modal-eliminar-btns {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+}
+
+.modal-btn,
+.modal-btn-cancel {
+  width: 48%;
+  height: 48px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  padding: 0;
+  box-sizing: border-box; 
+}
+
+.modal-btn {
+  background: linear-gradient(to bottom, #e53935, #ff8a80);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  margin-bottom: 1.5%;
+}
+
+.modal-btn-cancel {
+  background: linear-gradient(to bottom, #999, #777);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.modal-btn-cancel:hover {
+  background: linear-gradient(to bottom, #363636a9, #464545);
+}
+
+.modal-btn:hover {
+  background: linear-gradient(to bottom, #fc5656a9, #e66767);
+}
+
+
+.modal-btn-confirmar{
+    background: linear-gradient(to bottom, #e53935, #ff8a80);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-bottom: 1.5%;
+    width: 48%;
+    height: 48px;
+    min-height: 48px;
+    display: block;
+    margin: auto auto;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    padding: 0;
+    box-sizing: border-box; 
+}

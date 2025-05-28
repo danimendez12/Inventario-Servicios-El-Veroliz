@@ -1,0 +1,118 @@
+.ayuda-bg {
+  background: #f5f5f5;
+  min-height: 100vh;
+  width: 100vw;
+}
+.ayuda-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px; /* Más pegado al header */
+}
+.ayuda-titulo {
+  font-size: 2rem;
+  font-weight: 500;
+  color: #222;
+  margin-bottom: 6px; /* Menos espacio con el avatar */
+}
+.ayuda-bot-avatar {
+  margin-bottom: 24px;
+  opacity: 0.5;
+}
+.ayuda-chat-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.ayuda-chat-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  width: 90vh;
+  max-width: 90vh;
+  min-height: 370px;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  margin-bottom: 24px;
+}
+.ayuda-chat-mensajes {
+  padding: 24px 24px 0 24px;
+  min-height: 260px;
+  max-height: 340px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.ayuda-msg {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+.ayuda-msg-bot {
+  justify-content: flex-start;
+}
+.ayuda-msg-user {
+  justify-content: flex-end;
+}
+.ayuda-msg-avatar-bot {
+  font-size: 1.2rem;
+  margin-right: 2px;
+}
+.ayuda-msg-avatar-user {
+  font-size: 1.2rem;
+  margin-left: 2px;
+}
+.ayuda-msg-texto {
+  background: #f5f5f5;
+  color: #222;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 1rem;
+  max-width: 260px;
+  word-break: break-word;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+.ayuda-msg-user .ayuda-msg-texto {
+  background: #e53935;
+  color: #fff;
+  font-weight: 500;
+}
+.ayuda-chat-form {
+  display: flex;
+  align-items: center;
+  border-top: 1.5px solid #eee;
+  padding: 10px 12px;
+  background: #fafafa;
+  border-radius: 0 0 12px 12px;
+}
+.ayuda-chat-input {
+  flex: 1 1 0;
+  border: 1.5px solid #ddd;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 1rem;
+  outline: none;
+  margin-right: 10px;
+  background: #fff;
+}
+.ayuda-chat-enviar {
+  background: #e53935;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background 0.2s;
+}
+.ayuda-chat-enviar:hover {
+  background: #b71c1c;
+}
