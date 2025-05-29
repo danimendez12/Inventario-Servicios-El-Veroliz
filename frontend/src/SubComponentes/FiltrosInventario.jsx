@@ -6,11 +6,7 @@ export default function FiltrosInventario({ filtros, onFiltroChange }) {
   return (
     <div className="filtros-box">
       <h2 className="filtros-title">Filtros</h2>
-      <div className="filtros-stack">
-        <button className="filtros-tag">Productos</button>
-        <button className="filtros-tag">Materia Prima</button>
-        
-      </div>
+    
       <select className="filtros-select" name="linea" onChange={onFiltroChange} value={filtros.linea || ''}>
         <option value="">Línea</option>
         <option value="Economica">Económica</option>

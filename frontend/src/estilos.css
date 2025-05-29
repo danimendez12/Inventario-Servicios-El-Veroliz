@@ -167,7 +167,7 @@
   cursor: pointer;
   transition: box-shadow 0.2s;
 }
-.dashboard-box:hover {
+.dashboard-box:hover, .dashboard-box-hover {
     box-shadow: 0 5px 15px rgba(248, 1, 1, 0.342);
 
 }
@@ -204,8 +204,9 @@
   align-items: center;
 }
 
-.notificaciones-bar:hover{
+.notificaciones-bar:hover, .notificaciones-bar:focus, .notificaciones-bar-hover {
   box-shadow: 0 5px 15px rgba(248, 1, 1, 0.342);
+  outline: 2px solid #1976d2;
 }
 
 .notificaciones-header {

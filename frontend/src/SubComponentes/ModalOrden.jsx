@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../estilos/notificaciones.css';
+import { obtener_productos_orden } from '../api';
 
 const estadoConfig = {
   'Atrasada': { label: 'Atrasado', color: '#e53935', bg: '#ffeaea' },
@@ -9,6 +10,32 @@ const estadoConfig = {
 };
 
 export default function ModalOrden({ orden, onClose, onDelete, onCompletar }) {
+  const [productos, setProductos] = useState([]);
+  const [seleccionados, setSeleccionados] = useState([]);
+
+  useEffect(() => {
+    async function cargarProductos() {
+      if (!orden || !orden.numero_orden) return;
+      const id = orden.numero_orden || orden.numero;
+      const resultado = await obtener_productos_orden(id);
+      console.log("orden pasada",orden.numero_orden )
+      if (resultado.success) {
+        setProductos(resultado.productos);
+        setSeleccionados(resultado.productos.map((_, idx) => idx)); // todos seleccionados por defecto
+      } else {
+        setProductos([]);
+        setSeleccionados([]);
+      }
+    }
+    cargarProductos();
+  }, [orden]);
+
+  const handleCheck = idx => {
+    setSeleccionados(sel =>
+      sel.includes(idx) ? sel.filter(i => i !== idx) : [...sel, idx]
+    );
+  };
+
   if (!orden) return null;
   const cfg = estadoConfig[orden.estado] || estadoConfig['Sin revisar'];
   return (
@@ -57,15 +84,20 @@ export default function ModalOrden({ orden, onClose, onDelete, onCompletar }) {
           </div>
           <div style={{ fontWeight: 600, marginBottom: 4 }}>Productos solicitados:</div>
           <ul style={{ margin: 0, paddingLeft: 24, marginBottom: 10 }}>
-            {orden.productos && orden.productos.length > 0 ? (
-              orden.productos.map((prod, idx) => (
+            {productos.length > 0 ? (
+              productos.map((prod, idx) => (
                 <li key={idx} style={{ marginBottom: 2, fontWeight: 400 }}>
-                  <input type="checkbox" checked readOnly style={{ marginRight: 6 }} />
-                  {prod}
+                  <input
+                    type="checkbox"
+                    checked={seleccionados.includes(idx)}
+                    onChange={() => handleCheck(idx)}
+                    style={{ marginRight: 6 }}
+                  />
+                  {prod.nombre} (Estado: {prod.estado}, Cantidad: {prod.cantidad}, Detalle: {prod.detalle || '-'})
                 </li>
               ))
             ) : (
-              <li><input type="checkbox" checked readOnly style={{ marginRight: 6 }} />Producto de ejemplo</li>
+              <li>No hay productos para esta orden</li>
             )}
           </ul>
           <div style={{ fontWeight: 600 }}>Fecha de solicitud: <span style={{ fontWeight: 400 }}>{orden.fechaSolicitud || '27 de marzo de 2025, 10:30 AM.'}</span></div>

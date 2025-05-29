@@ -253,5 +253,29 @@ def completar_orden():
     finally:
         close_db_connection(conn)
 
+
+@app.route('/api/obtener_productos_orden', methods=['GET'])
+def obtener_productos_orden():
+    print("entrandoooooo a obtener_productos_orden de app")
+    data = request.json
+    id_item = data.get('id')
+    print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa", id_item)
+    print(f"ID del item a eliminar: {id_item}")
+    conn = get_db_connection()
+
+    if not conn:
+        return jsonify({'success': False, 'message': 'Error de conexión'}), 500
+    try:
+        cur = conn.cursor()
+        cur.execute("SELECT ver_productos_orden(%s);", (id_item,))
+        conn.commit()
+        print("completado exitosooooo")
+        cur.close()
+        return jsonify({'success': True })
+    except Exception as e:
+        return jsonify({'success': False, 'message': str(e)})
+    finally:
+        close_db_connection(conn)
+        
 if __name__ == '__main__':
     app.run(debug=True)

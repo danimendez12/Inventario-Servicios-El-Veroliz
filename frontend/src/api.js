@@ -167,3 +167,20 @@ export async function completar_orden(id) {
   }
   
 }
+
+export async function obtener_productos_orden(id) {
+  try {
+    const response = await axios.get(`${API_URL}/obtener_productos_orden`, {
+      headers: { 'Content-Type': 'application/json' },
+      data: { id }
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      return error.response.data;
+    }
+    return { success: false, message: 'Error de red o servidor' };
+  }
+  
+}

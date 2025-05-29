@@ -3,6 +3,16 @@ import '../estilos/notificaciones.css';
 
 export default function ModalNotificacion({ noti, onClose, onDelete }) {
   if (!noti) return null;
+  // Estado local para controlar si la notificación está visible
+  const [visible, setVisible] = React.useState(true);
+
+  const handleDelete = () => {
+    setVisible(false); // Oculta la notificación visualmente
+    if (onDelete) onDelete(noti); // Llama al callback para borrado real si existe
+  };
+
+  if (!visible) return null;
+
   return (
     <div className="modal-noti-bg">
       <div className="modal-noti-card" style={{ minHeight: 260, maxHeight: 420 }}>
@@ -17,7 +27,7 @@ export default function ModalNotificacion({ noti, onClose, onDelete }) {
             </div>
           </div>
           <div className="modal-noti-actions">
-            <button className="modal-noti-delete" onClick={() => onDelete(noti)} title="Eliminar">
+            <button className="modal-noti-delete" onClick={handleDelete} title="Eliminar">
               <svg width="18" height="20" viewBox="0 0 18 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M18 20H0.5V0H18V20Z" stroke="#E5E7EB"/>
                 <g clip-path="url(#clip0_120_424)">
